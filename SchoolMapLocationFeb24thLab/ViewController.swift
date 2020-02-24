@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 
+//MARK: Remember to always add “NSLocationAlwaysAndWhenInUseUsageDescription” and “NSLocationWhenInUseUsageDescription” in the info.plist !!!! 
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
