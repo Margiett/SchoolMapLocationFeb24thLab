@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     private let locationSession = CoreLocationSession()
+    private var isShowingNewAnnotations = false
+    private var annotations = [MKPointAnnotation]()
+    private var userTrackingButton: MKUserTrackingButton!
     
     
     private var schools = [School]()
@@ -21,11 +24,16 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        mapView.showsUserLocation = true
+        
+        userTrackingButton = MKUserTrackingButton(frame: CGRect(x: 20, y: 20, width: 40, height: 40))
+        mapView.addSubview(userTrackingButton)
+        userTrackingButton.mapView = mapView
         
         loadMapsView()
         loadSchools()
         makeAnnotations()
+        mapView.delegate = self
     }
     
     private func loadSchools(){
@@ -54,6 +62,8 @@ class ViewController: UIViewController {
             annotation.title = school.schoolName
             annotations.append(annotation)
         }
+        isShowingNewAnnotations = true
+        self.annotations = annotations
         return annotations
     }
     
@@ -74,19 +84,33 @@ extension ViewController: MKMapViewDelegate{
         
     }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MKPointAnnotation else {
-            return nil
-        }
-        let identifier = "SchoolLocationsAnnotation"
-        var annotationView: MKPinAnnotationView
+        guard annotation is MKPointAnnotation else { return nil }
         
-        if let dequeView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
-            annotationView = dequeView
+        let identifier = "SchoolLocationsAnnotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as?  MKMarkerAnnotationView
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            annotationView?.glyphImage = UIImage(named: "school")
+            annotationView?.glyphText = "Schools"
+            annotationView?.markerTintColor = .systemBlue
         } else {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView.canShowCallout = true
+            annotationView?.annotation = annotation
         }
+//
+//        if let dequeView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+//            annotationView = dequeView
+//        } else {
+//            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//            annotationView.canShowCallout = true
+//        }
         return annotationView
+    }
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        if isShowingNewAnnotations {
+            mapView.showAnnotations(makeAnnotations(), animated: false)
+        }
+        isShowingNewAnnotations = false
     }
     
     

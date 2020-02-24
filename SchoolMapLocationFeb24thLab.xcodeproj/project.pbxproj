@@ -92,13 +92,13 @@
 				9FE4095324043E3F00CE770F /* AppDelegate.swift */,
 				9FE4095524043E3F00CE770F /* SceneDelegate.swift */,
 				9FE4095724043E3F00CE770F /* ViewController.swift */,
+				9FF3FA40240465FD00FD6BDA /* CoreLocationSession.swift */,
 				9FE4095924043E4000CE770F /* Main.storyboard */,
 				9FE4095C24043E4200CE770F /* Assets.xcassets */,
 				9FE4095E24043E4200CE770F /* LaunchScreen.storyboard */,
 				9FE4096124043E4200CE770F /* Info.plist */,
 				9FF3FA3624044BA800FD6BDA /* SchoolModel.swift */,
 				9FF3FA3E24044E4800FD6BDA /* APIClient.swift */,
-				9FF3FA40240465FD00FD6BDA /* CoreLocationSession.swift */,
 			);
 			path = SchoolMapLocationFeb24thLab;
 			sourceTree = "<group>";
