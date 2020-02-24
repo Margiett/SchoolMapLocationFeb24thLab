@@ -12,14 +12,20 @@ import MapKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
-    private var schools = [School]() {
-        didSet{
-            print("maps:\(schools)")
-        }
-    }
+    
+    private let locationSession = CoreLocationSession()
+    
+    
+    private var schools = [School]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        loadMapsView()
+        loadSchools()
+        makeAnnotations()
     }
     
     private func loadSchools(){
@@ -82,6 +88,9 @@ extension ViewController: MKMapViewDelegate{
         }
         return annotationView
     }
+    
+    
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         print("calloutAccessoryControlTapped")
     }

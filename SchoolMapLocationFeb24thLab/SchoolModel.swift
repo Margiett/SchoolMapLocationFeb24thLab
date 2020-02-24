@@ -18,7 +18,7 @@ struct School: Codable {
     let location: String
     let latitude: String
     let longitude: String
-//MARK: not allowing me to add codng keys
+
     private enum CodingKeys: String, Codable, CodingKey {
         case schoolName = "school_name"
         case location
